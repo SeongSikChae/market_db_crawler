@@ -5,6 +5,10 @@ VisualStudioVersion = 17.1.32120.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "db_market_crawler", "db_market_crawler\db_market_crawler.csproj", "{EDA7247B-9CFB-4B45-99BC-E2DD25F3C859}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketCrawlerLib", "MarketCrawlerLib\MarketCrawlerLib.csproj", "{637BAC75-029A-4122-8218-F42988EC5FB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketCrawlerLibTests", "MarketCrawlerLibTests\MarketCrawlerLibTests.csproj", "{A4CE382A-245D-455E-AF43-6D6A8291A5D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{EDA7247B-9CFB-4B45-99BC-E2DD25F3C859}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDA7247B-9CFB-4B45-99BC-E2DD25F3C859}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDA7247B-9CFB-4B45-99BC-E2DD25F3C859}.Release|Any CPU.Build.0 = Release|Any CPU
+		{637BAC75-029A-4122-8218-F42988EC5FB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{637BAC75-029A-4122-8218-F42988EC5FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{637BAC75-029A-4122-8218-F42988EC5FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{637BAC75-029A-4122-8218-F42988EC5FB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4CE382A-245D-455E-AF43-6D6A8291A5D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4CE382A-245D-455E-AF43-6D6A8291A5D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4CE382A-245D-455E-AF43-6D6A8291A5D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4CE382A-245D-455E-AF43-6D6A8291A5D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
