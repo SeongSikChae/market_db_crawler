@@ -2,9 +2,9 @@
 {
     public interface ICrawler
     {
-        Task<List<Category>> Categories(string? parameter = null);
+        Task<List<Category>> GetCategories();
 
-        Task<List<Category>> Categories(Category category);
+        Task<List<Category>> GetCategories(Category category);
     }
 
     public sealed class Category
@@ -17,9 +17,11 @@
 
         public string? Link { get; set; }
 
+        public int Level { get; set; } = 1;
+
         public override string ToString()
         {
-            return $"{Id}/{Name}/{IsSubCategory}/{Link}";
+            return $"{Id}/{Name}/{IsSubCategory}/{Link}/{Level}";
         }
     }
 }

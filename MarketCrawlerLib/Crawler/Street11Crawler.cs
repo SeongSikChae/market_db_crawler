@@ -6,35 +6,35 @@ namespace MarketCrawlerLib.Crawler
 {
     public sealed class Street11Crawler : ICrawler
     {
-        public async Task<List<Category>> Categories(string? parameter = "pageId=SIDEMENU_V3")
+        public async Task<List<Category>> GetCategories()
         {
-            return await Categories(parameter, false);
+            return await GetCategories("pageId=SIDEMENU_V3", false, 1);
         }
 
-        public async Task<List<Category>> Categories(Category category)
+        public async Task<List<Category>> GetCategories(Category category)
         {
-            return await Categories(category.Link, category.IsSubCategory);
+            return await GetCategories(category.Link, category.IsSubCategory, category.Level + 1);
         }
 
         private const string UserAgentHeaderName = "User-Agent";
         private const string UserAgentHeaderValue = "Mozilla/5.0 (Linux; Android 9; SM-G973N Build/PI; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/121.0.6167.180 Mobile Safari/537.36 CP_ELEVENST (01; 9.7.6; playstore; 225; c29885f466388121818af4502c806fd3; 93ba8d34-bebc-42a5-82b8-196502c34a2c) CP_SESSION_ID (34b7401b-c91c-3de3-a816-1b6b4f9f146c_1714466428885; 34b7401b-c91c-3de3-a816-1b6b4f9f146c_1714466428886) SKpay/1.8.1 11pay/1.8.1 (Android 9; plugin-mode) com.elevenst/9.7.6";
         private const string BlockType = "GridList_ImgTextCard";
 
-        private async Task<List<Category>> Categories(string? parameter = "pageId=SIDEMENU_V3", bool isLastCategory = false)
+        private async Task<List<Category>> GetCategories(string? parameter, bool isLastCategory, int level)
         {
             if (isLastCategory) {
                 HttpClient lastCategoryClient = new HttpClient();
                 lastCategoryClient.BaseAddress = new Uri("http://apis.11st.co.kr");
                 lastCategoryClient.DefaultRequestHeaders.Add(UserAgentHeaderName, UserAgentHeaderValue);
-                return await Categories(lastCategoryClient, $"display-api/display/category?pageId=MOCATEGORYDEFAULT&appId=01&appType=appmw&appVCA=976&deviceID={Guid.NewGuid()}&tStoreYN=N&deviceType=android&{parameter}");
+                return await GetCategories(lastCategoryClient, $"display-api/display/category?pageId=MOCATEGORYDEFAULT&appId=01&appType=appmw&appVCA=976&deviceID={Guid.NewGuid()}&tStoreYN=N&deviceType=android&{parameter}", level);
             }
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("http://m.11st.co.kr");
             client.DefaultRequestHeaders.Add(UserAgentHeaderName, UserAgentHeaderValue);
-            return await Categories(client, $"MW/CMS/PageDataAjax.tmall?{parameter}");
+            return await GetCategories(client, $"MW/CMS/PageDataAjax.tmall?{parameter}", level);
         }
 
-        private async Task<List<Category>> Categories(HttpClient client, string requestUri)
+        private async Task<List<Category>> GetCategories(HttpClient client, string requestUri, int level)
         {
             List<Category> categories = new List<Category>();
             string? json = await client.GetStringAsync(requestUri);
@@ -64,7 +64,8 @@ namespace MarketCrawlerLib.Crawler
                         {
                             Id = cate_no,
                             Name = item.Title1,
-                            IsSubCategory = item.DispObjNo is not null
+                            IsSubCategory = item.DispObjNo is not null,
+                            Level = level
                         };
                         if (!string.IsNullOrWhiteSpace(link))
                         {

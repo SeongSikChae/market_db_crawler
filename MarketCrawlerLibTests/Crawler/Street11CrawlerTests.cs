@@ -12,7 +12,7 @@ namespace MarketCrawlerLib.Crawler.Tests
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             ICrawler crawler = new Street11Crawler();
-            List<Category> categories = await crawler.Categories("pageId=SIDEMENU_V3");
+            List<Category> categories = await crawler.GetCategories();
             using (MemoryStream stream = new MemoryStream())
             {
                 await System.Text.Json.JsonSerializer.SerializeAsync<List<Category>>(stream, categories, new System.Text.Json.JsonSerializerOptions
@@ -46,7 +46,7 @@ namespace MarketCrawlerLib.Crawler.Tests
                     category = await System.Text.Json.JsonSerializer.DeserializeAsync<Category>(stream);
                 }
                 Assert.IsNotNull(category);
-                List<Category> categories = await crawler.Categories(category);
+                List<Category> categories = await crawler.GetCategories(category);
                 using (MemoryStream stream = new MemoryStream())
                 {
                     await System.Text.Json.JsonSerializer.SerializeAsync<List<Category>>(stream, categories, new System.Text.Json.JsonSerializerOptions
@@ -74,7 +74,7 @@ namespace MarketCrawlerLib.Crawler.Tests
                     category = await System.Text.Json.JsonSerializer.DeserializeAsync<Category>(stream);
                 }
                 Assert.IsNotNull(category);
-                List<Category> categories = await crawler.Categories(category);
+                List<Category> categories = await crawler.GetCategories(category);
                 using (MemoryStream stream = new MemoryStream())
                 {
                     await System.Text.Json.JsonSerializer.SerializeAsync<List<Category>>(stream, categories, new System.Text.Json.JsonSerializerOptions
