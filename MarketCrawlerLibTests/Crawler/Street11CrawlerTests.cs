@@ -7,7 +7,7 @@ namespace MarketCrawlerLib.Crawler.Tests
     public class Street11CrawlerTests
     {
         [TestMethod]
-        public async Task CategoriesTest()
+        public async Task GetCategoriesTest()
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -26,7 +26,7 @@ namespace MarketCrawlerLib.Crawler.Tests
         }
 
         [TestMethod]
-        public async Task SubCategoreisTest()
+        public async Task GetCategoriesTest2()
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             ICrawler crawler = new Street11Crawler();
