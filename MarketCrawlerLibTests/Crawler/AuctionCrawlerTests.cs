@@ -4,15 +4,15 @@ using System.Text;
 namespace MarketCrawlerLib.Crawler.Tests
 {
     [TestClass]
-    public class Street11CrawlerTests
+    public class AuctionCrawlerTests
     {
         [TestMethod]
         public async Task GetCategoriesTest()
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            ICrawler<Street11Category> crawler = new Street11Crawler();
-            List<Street11Category> categories = await crawler.GetCategories();
+            ICrawler<AuctionCategory> crawler = new AuctionCrawler();
+            List<AuctionCategory> categories = await crawler.GetCategories();
             using (MemoryStream stream = new MemoryStream())
             {
                 await System.Text.Json.JsonSerializer.SerializeAsync(stream, categories, new System.Text.Json.JsonSerializerOptions
@@ -29,24 +29,25 @@ namespace MarketCrawlerLib.Crawler.Tests
         public async Task GetCategoriesTest2()
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            ICrawler<Street11Category> crawler = new Street11Crawler();
+
+            ICrawler<AuctionCategory> crawler = new AuctionCrawler();
             {
-                Street11Category? category;
+                AuctionCategory? category;
                 using (MemoryStream stream = new MemoryStream())
                 {
                     using StreamWriter writer = new StreamWriter(stream);
                     writer.Write(@"{
-                        ""Id"": ""163122"",
-                        ""Name"": ""브랜드패션"",
-                        ""IsSubCategory"": false,
-                        ""Link"": ""pageId=META163134&metaLctgrNo=163122&metaMctgrNo=163134""
+                        ""CategoryType"": ""Auction"",
+                        ""Id"": ""8"",
+                        ""Name"": ""브랜드 패션"",
+                        ""Level"": 1
                     }");
                     writer.Flush();
                     stream.Position = 0;
-                    category = await System.Text.Json.JsonSerializer.DeserializeAsync<Street11Category>(stream);
+                    category = await System.Text.Json.JsonSerializer.DeserializeAsync<AuctionCategory>(stream);
                 }
                 Assert.IsNotNull(category);
-                List<Street11Category> categories = await crawler.GetCategories(category);
+                List<AuctionCategory> categories = await crawler.GetCategories(category);
                 using (MemoryStream stream = new MemoryStream())
                 {
                     await System.Text.Json.JsonSerializer.SerializeAsync(stream, categories, new System.Text.Json.JsonSerializerOptions
@@ -59,22 +60,22 @@ namespace MarketCrawlerLib.Crawler.Tests
                 }
             }
             {
-                Street11Category? category;
+                AuctionCategory? category;
                 using (MemoryStream stream = new MemoryStream())
                 {
                     using StreamWriter writer = new StreamWriter(stream);
                     writer.Write(@"{
-                        ""Id"": ""1149695"",
-                        ""Name"": ""컴퓨터"",
-                        ""IsSubCategory"": true,
-                        ""Link"": ""metaCtgrNo=1149695""
+                        ""CategoryType"": ""Auction"",
+                        ""Id"": ""66000000"",
+                        ""Name"": ""브랜드 여성의류"",
+                        ""Level"": 2
                     }");
                     writer.Flush();
                     stream.Position = 0;
-                    category = await System.Text.Json.JsonSerializer.DeserializeAsync<Street11Category>(stream);
+                    category = await System.Text.Json.JsonSerializer.DeserializeAsync<AuctionCategory>(stream);
                 }
                 Assert.IsNotNull(category);
-                List<Street11Category> categories = await crawler.GetCategories(category);
+                List<AuctionCategory> categories = await crawler.GetCategories(category);
                 using (MemoryStream stream = new MemoryStream())
                 {
                     await System.Text.Json.JsonSerializer.SerializeAsync(stream, categories, new System.Text.Json.JsonSerializerOptions
