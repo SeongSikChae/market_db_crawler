@@ -44,7 +44,7 @@ namespace MarketCrawlerLib.Crawler
             return categories;
         }
 
-        private void FillSubCategories(GMarketCategory category, List<CategoryTab> categoryTabs)
+        private static void FillSubCategories(GMarketCategory category, List<CategoryTab> categoryTabs)
         {
             foreach (CategoryTab tab in categoryTabs)
             {
@@ -64,9 +64,9 @@ namespace MarketCrawlerLib.Crawler
             }
         }
 
-        public async Task<List<GMarketCategory>> GetCategories(GMarketCategory category)
+        public Task<List<GMarketCategory>> GetCategories(GMarketCategory category)
         {
-            return await Task.FromResult(category.SubCategories);
+            return Task.FromResult(category.SubCategories);
         }
 
         private sealed class CategoryQueryResult

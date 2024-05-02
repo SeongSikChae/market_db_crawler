@@ -75,9 +75,9 @@ namespace MarketCrawlerLib.Crawler
             return categories;
         }
 
-        public async Task<List<CoupangCategory>> GetCategories(CoupangCategory category)
+        public Task<List<CoupangCategory>> GetCategories(CoupangCategory category)
         {
-            return await Task.FromResult(category.SubCategories);
+            return Task.FromResult(category.SubCategories);
         }
 
         private sealed class CategoryQueryResult
