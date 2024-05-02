@@ -11,11 +11,11 @@ namespace MarketCrawlerLib.Crawler.Tests
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            ICrawler<NaverCategory> crawler = new NaverCrawler();
-            List<NaverCategory> categories = await crawler.GetCategories();
+            ICrawler crawler = new NaverCrawler();
+            List<Category> categories = await crawler.GetCategories();
             using (MemoryStream stream = new MemoryStream())
             {
-                await System.Text.Json.JsonSerializer.SerializeAsync(stream, categories, new System.Text.Json.JsonSerializerOptions
+                await System.Text.Json.JsonSerializer.SerializeAsync(stream, categories.Cast<NaverCategory>(), new System.Text.Json.JsonSerializerOptions
                 {
                     Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
                 });

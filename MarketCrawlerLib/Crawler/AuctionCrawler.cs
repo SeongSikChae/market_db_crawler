@@ -3,12 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace MarketCrawlerLib.Crawler
 {
-    public sealed class AuctionCategory : AbstractCategory
-    {
-        public override CategoryType CategoryType => CategoryType.Auction;
-    }
-
-    public sealed class AuctionCrawler : ICrawler<AuctionCategory>
+    public sealed class AuctionCrawler : ICrawler
     {
         private const string UserAgentHeaderName = "User-Agent";
         private const string AppVersion = "8.5.51";
@@ -17,9 +12,9 @@ namespace MarketCrawlerLib.Crawler
         private const string AuthorizationHeaderValue = "Android IQBnAG0AeQBIAEQAeQBwADMAdQBnAHEATgBsAGYAcQAyAEgALwAxAEsATwA1AEUAYQAxAHAAZgBNAGQAZgA2ACsAbgBKAE8AWQBiAFEAVQBqAHIAUgBtAEoAVAB0AEcAVgBCAFUAMwA2AG4ANABUAHAASQBYADMAaABnAHkATABrAFoAVQBhAGUASABLAHkAeQBlAGEASgBLAGUAYQBIAGUAMwBnAE8AQgBnAHkAegA5AFkAUgBVAGEAdgBoADUAdQBGADUAaABtAFoAWQBDAGYAcwBKAGsAMgA3ADcAcABhAFkANwBiAEEAegBxAHQAbgB1AG0ANQB2AGQATABkAEkAMgArADMASQA3AG8AMgBBAGEAeABzAEEARABQAFoAagBvAGIAWQA0AHgAZwA9AD0A";
         private const string AppInfoHeaderName = "App-Info";
 
-        public async Task<List<AuctionCategory>> GetCategories()
+        public async Task<List<Category>> GetCategories()
         {
-            List<AuctionCategory> categories = new List<AuctionCategory>();
+            List<Category> categories = new List<Category>();
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://imapi.auction.co.kr");
             client.DefaultRequestHeaders.Add(UserAgentHeaderName, UserAgentHeaderValue);
@@ -35,7 +30,7 @@ namespace MarketCrawlerLib.Crawler
                 return categories;
             foreach (MobileAuctionCategoryServiceItem item in result.Data.ItemList)
             {
-                categories.Add(new AuctionCategory
+                categories.Add(new Category
                 {
                     Id = item.Id,
                     Name = item.Name,
@@ -45,9 +40,9 @@ namespace MarketCrawlerLib.Crawler
             return categories;
         }
 
-        public async Task<List<AuctionCategory>> GetCategories(AuctionCategory category)
+        public async Task<List<Category>> GetCategories(Category category)
         {
-            List<AuctionCategory> categories = new List<AuctionCategory>();
+            List<Category> categories = new List<Category>();
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://imapi.auction.co.kr");
             client.DefaultRequestHeaders.Add(UserAgentHeaderName, UserAgentHeaderValue);
@@ -61,7 +56,7 @@ namespace MarketCrawlerLib.Crawler
                 return categories;
             foreach (MobileAuctionCategoryServiceItem item in result.DataList)
             {
-                categories.Add(new AuctionCategory
+                categories.Add(new Category
                 {
                     Id = item.Id,
                     Name = item.Name,

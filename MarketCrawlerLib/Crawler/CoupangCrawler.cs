@@ -4,14 +4,12 @@ using System.Text.Json.Serialization;
 
 namespace MarketCrawlerLib.Crawler
 {
-    public sealed class CoupangCategory : AbstractCategory
+    public sealed class CoupangCategory : Category
     {
-        public override CategoryType CategoryType => CategoryType.Coupang;
-
-        public List<CoupangCategory> SubCategories { get; set; } = new List<CoupangCategory>();
+        public List<Category> SubCategories { get; set; } = new List<Category>();
     }
 
-    public sealed class CoupangCrawler : ICrawler<CoupangCategory>
+    public sealed class CoupangCrawler : ICrawler
     {
         private const string UserAgentHeaderName = "User-Agent";
         private const string UserAgentHeaderValue = $"Dalvik/2.1.0 (Linux; U; Android 7.1.2; SM-G975N Build/N2G48H)";
@@ -24,9 +22,9 @@ namespace MarketCrawlerLib.Crawler
         private const string CoupangAcceptLanguageHeaderName = "X-Coupang-Accept-Language";
         private const string CoupangAcceptLanguageHeaderValue = "ko-KR";
 
-        public async Task<List<CoupangCategory>> GetCategories()
+        public async Task<List<Category>> GetCategories()
         {
-            List<CoupangCategory> categories = new List<CoupangCategory>();
+            List<Category> categories = new List<Category>();
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://cmapi.coupang.com");
             client.DefaultRequestHeaders.Add(UserAgentHeaderName, UserAgentHeaderValue);
@@ -75,7 +73,14 @@ namespace MarketCrawlerLib.Crawler
             return categories;
         }
 
-        public Task<List<CoupangCategory>> GetCategories(CoupangCategory category)
+        public Task<List<Category>> GetCategories(Category category)
+        {
+            if (category is CoupangCategory)
+                throw new InvalidOperationException("category is not coupang category");
+            return GetCategories((CoupangCategory) category);
+        }
+
+        private Task<List<Category>> GetCategories(CoupangCategory category)
         {
             return Task.FromResult(category.SubCategories);
         }

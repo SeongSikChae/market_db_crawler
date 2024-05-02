@@ -11,8 +11,8 @@ namespace MarketCrawlerLib.Crawler.Tests
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            ICrawler<AuctionCategory> crawler = new AuctionCrawler();
-            List<AuctionCategory> categories = await crawler.GetCategories();
+            ICrawler crawler = new AuctionCrawler();
+            List<Category> categories = await crawler.GetCategories();
             using (MemoryStream stream = new MemoryStream())
             {
                 await System.Text.Json.JsonSerializer.SerializeAsync(stream, categories, new System.Text.Json.JsonSerializerOptions
@@ -30,9 +30,9 @@ namespace MarketCrawlerLib.Crawler.Tests
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            ICrawler<AuctionCategory> crawler = new AuctionCrawler();
+            ICrawler crawler = new AuctionCrawler();
             {
-                AuctionCategory? category;
+                Category? category;
                 using (MemoryStream stream = new MemoryStream())
                 {
                     using StreamWriter writer = new StreamWriter(stream);
@@ -44,10 +44,10 @@ namespace MarketCrawlerLib.Crawler.Tests
                     }");
                     writer.Flush();
                     stream.Position = 0;
-                    category = await System.Text.Json.JsonSerializer.DeserializeAsync<AuctionCategory>(stream);
+                    category = await System.Text.Json.JsonSerializer.DeserializeAsync<Category>(stream);
                 }
                 Assert.IsNotNull(category);
-                List<AuctionCategory> categories = await crawler.GetCategories(category);
+                List<Category> categories = await crawler.GetCategories(category);
                 using (MemoryStream stream = new MemoryStream())
                 {
                     await System.Text.Json.JsonSerializer.SerializeAsync(stream, categories, new System.Text.Json.JsonSerializerOptions
@@ -60,7 +60,7 @@ namespace MarketCrawlerLib.Crawler.Tests
                 }
             }
             {
-                AuctionCategory? category;
+                Category? category;
                 using (MemoryStream stream = new MemoryStream())
                 {
                     using StreamWriter writer = new StreamWriter(stream);
@@ -72,10 +72,10 @@ namespace MarketCrawlerLib.Crawler.Tests
                     }");
                     writer.Flush();
                     stream.Position = 0;
-                    category = await System.Text.Json.JsonSerializer.DeserializeAsync<AuctionCategory>(stream);
+                    category = await System.Text.Json.JsonSerializer.DeserializeAsync<Category>(stream);
                 }
                 Assert.IsNotNull(category);
-                List<AuctionCategory> categories = await crawler.GetCategories(category);
+                List<Category> categories = await crawler.GetCategories(category);
                 using (MemoryStream stream = new MemoryStream())
                 {
                     await System.Text.Json.JsonSerializer.SerializeAsync(stream, categories, new System.Text.Json.JsonSerializerOptions

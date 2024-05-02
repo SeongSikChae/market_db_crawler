@@ -2,23 +2,15 @@
 
 namespace MarketCrawlerLib.Crawler
 {
-    public interface ICrawler<TCategory> where TCategory : AbstractCategory
+    public interface ICrawler
     {
-        Task<List<TCategory>> GetCategories();
+        Task<List<Category>> GetCategories();
 
-        Task<List<TCategory>> GetCategories(TCategory category);
+        Task<List<Category>> GetCategories(Category category);
     }
 
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum CategoryType
+    public class Category
     {
-        Auction, Coupang, GMarket, Naver, Street11
-    }
-
-    public abstract class AbstractCategory
-    {
-        public abstract CategoryType CategoryType { get; }
-
         public string? Id { get; set; }
 
         public string Name { get; set; } = string.Empty;

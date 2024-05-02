@@ -3,21 +3,19 @@ using System.Text.Json.Serialization;
 
 namespace MarketCrawlerLib.Crawler
 {
-    public sealed class GMarketCategory : AbstractCategory
+    public sealed class GMarketCategory : Category
     {
-        public override CategoryType CategoryType => CategoryType.GMarket;
-
-        public List<GMarketCategory> SubCategories { get; set; } = new List<GMarketCategory>();
+        public List<Category> SubCategories { get; set; } = new List<Category>();
     }
 
-    public sealed class GMarketCrawler : ICrawler<GMarketCategory>
+    public sealed class GMarketCrawler : ICrawler
     {
         private const string UserAgentHeaderName = "User-Agent";
         private const string UserAgentHeaderValue = "Mozilla/5.0 (Linux; Android 9; SM-G973N Build/PI; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/121.0.6167.180 Mobile Safari/537.36 MobileApp/1.1 (Android; 10.5.7; com.ebay.kr.gmarket; SM-G973N)";
 
-        public async Task<List<GMarketCategory>> GetCategories()
+        public async Task<List<Category>> GetCategories()
         {
-            List<GMarketCategory> categories = new List<GMarketCategory>();
+            List<Category> categories = new List<Category>();
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://elsa-fe.gmarket.co.kr");
             client.DefaultRequestHeaders.Add(UserAgentHeaderName, UserAgentHeaderValue);
@@ -64,7 +62,14 @@ namespace MarketCrawlerLib.Crawler
             }
         }
 
-        public Task<List<GMarketCategory>> GetCategories(GMarketCategory category)
+        public Task<List<Category>> GetCategories(Category category)
+        {
+            if (category is GMarketCategory)
+                throw new InvalidOperationException("category is not gmarket category");
+            return GetCategories((GMarketCategory)category);
+        }
+
+        private Task<List<Category>> GetCategories(GMarketCategory category)
         {
             return Task.FromResult(category.SubCategories);
         }

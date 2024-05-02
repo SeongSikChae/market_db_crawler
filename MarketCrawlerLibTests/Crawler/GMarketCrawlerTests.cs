@@ -11,11 +11,11 @@ namespace MarketCrawlerLib.Crawler.Tests
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            ICrawler<GMarketCategory> crawler = new GMarketCrawler();
-            List<GMarketCategory> categories = await crawler.GetCategories();
+            ICrawler crawler = new GMarketCrawler();
+            List<Category> categories = await crawler.GetCategories();
             using (MemoryStream stream = new MemoryStream())
             {
-                await System.Text.Json.JsonSerializer.SerializeAsync(stream, categories, new System.Text.Json.JsonSerializerOptions
+                await System.Text.Json.JsonSerializer.SerializeAsync(stream, categories.Cast<GMarketCategory>(), new System.Text.Json.JsonSerializerOptions
                 {
                     Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
                 });

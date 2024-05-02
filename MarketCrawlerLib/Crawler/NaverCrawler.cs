@@ -6,22 +6,20 @@ using System.Text.Json.Serialization;
 
 namespace MarketCrawlerLib.Crawler
 {
-    public sealed class NaverCategory : AbstractCategory
+    public sealed class NaverCategory : Category
     {
-        public override CategoryType CategoryType => CategoryType.Naver;
-
-        public List<NaverCategory> SubCategories { get; set; } = new List<NaverCategory>();
+        public List<Category> SubCategories { get; set; } = new List<Category>();
     }
 
-    public sealed class NaverCrawler : ICrawler<NaverCategory>
+    public sealed class NaverCrawler : ICrawler
     {
         private const string UserAgentHeaderName = "User-Agent";
         private const string UserAgentHeaderValue = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36";
         private const string JSON_SCRIPT_ELEMENT_HEADER = "window.__PRELOADED_STATE__=";
 
-        public async Task<List<NaverCategory>> GetCategories()
+        public async Task<List<Category>> GetCategories()
         {
-            List<NaverCategory> categories = new List<NaverCategory>();
+            List<Category> categories = new List<Category>();
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://m.shopping.naver.com");
             client.DefaultRequestHeaders.Add(UserAgentHeaderName, UserAgentHeaderValue);
@@ -73,7 +71,14 @@ namespace MarketCrawlerLib.Crawler
             }
         }
 
-        public Task<List<NaverCategory>> GetCategories(NaverCategory category)
+        public Task<List<Category>> GetCategories(Category category)
+        {
+            if (category is CoupangCategory)
+                throw new InvalidOperationException("category is not naver category");
+            return GetCategories((NaverCategory)category);
+        }
+
+        private Task<List<Category>> GetCategories(NaverCategory category)
         {
             return Task.FromResult(category.SubCategories);
         }

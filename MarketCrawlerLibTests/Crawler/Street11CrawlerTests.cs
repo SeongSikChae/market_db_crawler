@@ -11,8 +11,8 @@ namespace MarketCrawlerLib.Crawler.Tests
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            ICrawler<Street11Category> crawler = new Street11Crawler();
-            List<Street11Category> categories = await crawler.GetCategories();
+            ICrawler crawler = new Street11Crawler();
+            List<Category> categories = await crawler.GetCategories();
             using (MemoryStream stream = new MemoryStream())
             {
                 await System.Text.Json.JsonSerializer.SerializeAsync(stream, categories, new System.Text.Json.JsonSerializerOptions
@@ -29,9 +29,9 @@ namespace MarketCrawlerLib.Crawler.Tests
         public async Task GetCategoriesTest2()
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            ICrawler<Street11Category> crawler = new Street11Crawler();
+            ICrawler crawler = new Street11Crawler();
             {
-                Street11Category? category;
+                Category? category;
                 using (MemoryStream stream = new MemoryStream())
                 {
                     using StreamWriter writer = new StreamWriter(stream);
@@ -46,7 +46,7 @@ namespace MarketCrawlerLib.Crawler.Tests
                     category = await System.Text.Json.JsonSerializer.DeserializeAsync<Street11Category>(stream);
                 }
                 Assert.IsNotNull(category);
-                List<Street11Category> categories = await crawler.GetCategories(category);
+                List<Category> categories = await crawler.GetCategories(category);
                 using (MemoryStream stream = new MemoryStream())
                 {
                     await System.Text.Json.JsonSerializer.SerializeAsync(stream, categories, new System.Text.Json.JsonSerializerOptions
@@ -59,7 +59,7 @@ namespace MarketCrawlerLib.Crawler.Tests
                 }
             }
             {
-                Street11Category? category;
+                Category? category;
                 using (MemoryStream stream = new MemoryStream())
                 {
                     using StreamWriter writer = new StreamWriter(stream);
@@ -74,7 +74,7 @@ namespace MarketCrawlerLib.Crawler.Tests
                     category = await System.Text.Json.JsonSerializer.DeserializeAsync<Street11Category>(stream);
                 }
                 Assert.IsNotNull(category);
-                List<Street11Category> categories = await crawler.GetCategories(category);
+                List<Category> categories = await crawler.GetCategories(category);
                 using (MemoryStream stream = new MemoryStream())
                 {
                     await System.Text.Json.JsonSerializer.SerializeAsync(stream, categories, new System.Text.Json.JsonSerializerOptions
