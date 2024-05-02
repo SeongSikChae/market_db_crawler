@@ -4,15 +4,15 @@ using System.Text;
 namespace MarketCrawlerLib.Crawler.Tests
 {
     [TestClass]
-    public class CoupangCrawlerTests
+    public class GMarketCrawlerTests
     {
         [TestMethod]
         public async Task GetCategoriesTest()
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            ICrawler<CoupangCategory> crawler = new CoupangCrawler();
-            List<CoupangCategory> categories = await crawler.GetCategories();
+            ICrawler<GMarketCategory> crawler = new GMarketCrawler();
+            List<GMarketCategory> categories = await crawler.GetCategories();
             using (MemoryStream stream = new MemoryStream())
             {
                 await System.Text.Json.JsonSerializer.SerializeAsync(stream, categories, new System.Text.Json.JsonSerializerOptions

@@ -12,7 +12,7 @@ namespace MarketCrawlerLib.Crawler
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum CategoryType
     {
-        Auction, Coupang, Street11
+        Auction, Coupang, GMarket, Street11
     }
 
     public abstract class AbstractCategory
